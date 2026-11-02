@@ -1,0 +1,9 @@
+Компоненты перехвата процессов, поставляемые вместе с Relay (разработчик: NT KERNEL):
+
+router\   ProxiFyre 2.6.4 и его библиотеки (Newtonsoft.Json, NLog, Topshelf)
+           https://github.com/wiresock/proxifyre
+driver\   Windows Packet Filter 3.6.2.1 x64 (драйвер ndisrd)
+           https://github.com/wiresock/ndisapi
+
+Relay использует их без изменений. Перед публичным распространением проверьте условия лицензий на страницах выше.
+Если драйвер Windows Packet Filter не установлен, Relay при включении установит его из driver\ (нужны права администратора).

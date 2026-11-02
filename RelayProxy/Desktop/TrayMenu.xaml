@@ -1,0 +1,48 @@
+<Window x:Class="RelayProxy.Desktop.TrayMenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:motion="clr-namespace:RelayProxy.Desktop"
+ WindowStyle="None" AllowsTransparency="True" Background="Transparent" ShowInTaskbar="False" Topmost="True" ResizeMode="NoResize" SizeToContent="WidthAndHeight" UseLayoutRounding="True" ShowActivated="True"
+ FontFamily="{StaticResource UiFont}" FontSize="13" Foreground="#ECECEC" Title="Relay">
+  <Window.Resources>
+    <Style x:Key="TrayItem" TargetType="Button">
+      <Setter Property="Foreground" Value="#E4E4E6"/><Setter Property="Cursor" Value="Hand"/><Setter Property="FocusVisualStyle" Value="{x:Null}"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+        <Border x:Name="Plate" Background="#00FFFFFF" CornerRadius="12" Padding="10,7" RenderTransformOrigin=".5,.5">
+          <Border.RenderTransform><ScaleTransform x:Name="Press" ScaleX="1" ScaleY="1"/></Border.RenderTransform>
+          <ContentPresenter/>
+        </Border>
+        <ControlTemplate.Triggers>
+          <Trigger Property="IsMouseOver" Value="True">
+            <Trigger.EnterActions><BeginStoryboard><Storyboard><ColorAnimation Storyboard.TargetName="Plate" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#26FFFFFF" Duration="0:0:0.16"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+            <Trigger.ExitActions><BeginStoryboard><Storyboard><ColorAnimation Storyboard.TargetName="Plate" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#00FFFFFF" Duration="0:0:0.3"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+          </Trigger>
+          <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Plate" Property="Background" Value="#1CFFFFFF"/></Trigger>
+          <Trigger Property="IsPressed" Value="True">
+            <Trigger.EnterActions><BeginStoryboard><Storyboard>
+              <DoubleAnimation Storyboard.TargetName="Press" Storyboard.TargetProperty="ScaleX" To=".965" Duration="0:0:0.09"/>
+              <DoubleAnimation Storyboard.TargetName="Press" Storyboard.TargetProperty="ScaleY" To=".94" Duration="0:0:0.09"/>
+            </Storyboard></BeginStoryboard></Trigger.EnterActions>
+            <Trigger.ExitActions><BeginStoryboard><Storyboard>
+              <DoubleAnimation Storyboard.TargetName="Press" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.3"><DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="6"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+              <DoubleAnimation Storyboard.TargetName="Press" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.3"><DoubleAnimation.EasingFunction><ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="6"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+            </Storyboard></BeginStoryboard></Trigger.ExitActions>
+          </Trigger>
+          <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Plate" Property="Opacity" Value=".4"/></Trigger>
+        </ControlTemplate.Triggers>
+      </ControlTemplate></Setter.Value></Setter>
+    </Style>
+  </Window.Resources>
+  <Grid x:Name="Root" Margin="36,28,36,46" Opacity="0">
+    <!-- The wallpaper the glass refracts; kept off screen by an empty clip. -->
+    <Canvas Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="False"><motion:LiveBackdrop x:Name="AmbientBackdrop" Canvas.Left="-240" Canvas.Top="-240" Width="700" Height="520" Direct="True"/></Canvas>
+    <motion:LiquidGlass x:Name="Panel" VerticalAlignment="Top" HorizontalAlignment="Left" CornerRadius="22" Background="#4A060606" Padding="6" Width="206">
+      <motion:LiquidGlass.Effect><DropShadowEffect BlurRadius="22" ShadowDepth="6" Opacity=".42" Color="#000000"/></motion:LiquidGlass.Effect>
+      <StackPanel>
+        <StackPanel x:Name="Header" Orientation="Horizontal" Margin="10,6,10,6"><Ellipse x:Name="Dot" Width="7" Height="7" Fill="#8E8E93" VerticalAlignment="Center" Margin="0,1,9,0"/><TextBlock x:Name="StateText" Text="Прокси выключен" Foreground="#A8A8AE" FontSize="12" VerticalAlignment="Center"/></StackPanel>
+        <Button x:Name="OpenItem" Style="{StaticResource TrayItem}" Click="Open_Click"><StackPanel Orientation="Horizontal"><ContentControl Style="{StaticResource Icon}" Tag="{StaticResource IconWindow}" Width="17" Height="17" Margin="0,0,11,0"/><TextBlock x:Name="OpenText" Text="Открыть Relay" VerticalAlignment="Center"/></StackPanel></Button>
+        <Button x:Name="ConnectItem" Style="{StaticResource TrayItem}" Click="Connect_Click"><StackPanel Orientation="Horizontal"><ContentControl Style="{StaticResource Icon}" Tag="{StaticResource IconPower}" Width="17" Height="17" Margin="0,0,11,0"/><TextBlock x:Name="ConnectText" Text="Подключить приложения" VerticalAlignment="Center"/></StackPanel></Button>
+        <Button x:Name="SettingsItem" Style="{StaticResource TrayItem}" Click="Settings_Click"><StackPanel Orientation="Horizontal"><ContentControl Style="{StaticResource Icon}" Tag="{StaticResource IconSettings}" Width="17" Height="17" Margin="0,0,11,0"/><TextBlock Text="Настройки" VerticalAlignment="Center"/></StackPanel></Button>
+        <Border Height="1" Background="#26FFFFFF" Margin="10,4"/>
+        <Button x:Name="ExitItem" Style="{StaticResource TrayItem}" Click="Exit_Click"><StackPanel Orientation="Horizontal"><ContentControl Style="{StaticResource Icon}" Tag="{StaticResource IconCross}" Width="17" Height="17" Margin="0,0,11,0"/><TextBlock Text="Выход" VerticalAlignment="Center"/></StackPanel></Button>
+      </StackPanel>
+    </motion:LiquidGlass>
+  </Grid>
+</Window>

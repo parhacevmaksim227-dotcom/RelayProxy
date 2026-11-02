@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+work/
+outputs/
+RelayProxy/engine/*.exe
+RelayProxy/engine/*.dll
+RelayProxy/engine/*.tar.gz
+*.user
+.vs/
+.vscode/
+.claude/
+*.log
